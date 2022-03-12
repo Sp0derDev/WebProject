@@ -46,6 +46,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImageName" Type="nvarchar" MaxLength="100" />
           <Property Name="Price" Type="int" />
         </EntityType>
         <Association Name="FK_Cart_Customer">
@@ -173,6 +174,7 @@
           <Property Name="Price" Type="Int32" />
           <NavigationProperty Name="CardCodes" Relationship="Self.FK_Table_Product" FromRole="Product" ToRole="CardCode" />
           <NavigationProperty Name="CartItems" Relationship="Self.FK_Table_Prodcut" FromRole="Product" ToRole="CartItem" />
+          <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Table_Product">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
@@ -293,6 +295,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="WebProjectDbModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Price" ColumnName="Price" />

@@ -26,7 +26,13 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
 
+       
+
     </dl>
+</div>
+<div>
+    <img src="~/Content/Images/Products/@Model.ImageName" alt="@Model.ImageName" />
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

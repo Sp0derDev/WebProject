@@ -11,6 +11,7 @@
 </p>
 <table class="table">
     <tr>
+        <th>Image</th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -23,23 +24,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Price)
-    </td>
-    <td>
-        @item.CardCodes.Where(c => c.ProductId == item.Id && c.Status == "New").Count() @*Get the quantity by counting the number of unused codes*@
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |s
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img width="100" class="img-thumbnail" src="~/Content/Images/Products/@item.ImageName" alt="@item.ImageName" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @item.CardCodes.Where(c => c.ProductId == item.Id && c.Status == "New").Count() @*Get the quantity by counting the number of unused codes*@
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
