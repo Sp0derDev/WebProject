@@ -10,6 +10,7 @@ using WebProject.Models;
 
 namespace WebProject.Controllers
 {
+    [Authorize (Users ="admin@admin.com")]
     public class CardCodesController : Controller
     {
         private WebProjectDbEntities db = new WebProjectDbEntities();
