@@ -11,12 +11,15 @@ namespace WebProject.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CardCode
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
         public string Code { get; set; }
+
+        [RegularExpression("New|Used", ErrorMessage = "Status can only be set to New or Used")]
         public string Status { get; set; }
     
         public virtual Product Product { get; set; }
