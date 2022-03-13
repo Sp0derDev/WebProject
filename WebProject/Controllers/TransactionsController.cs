@@ -9,7 +9,7 @@ using WebProject.Models;
 namespace WebProject.Controllers
 {
     [Authorize]
-    public class TransactionController : Controller
+    public class TransactionsController : Controller
     {
         private WebProjectDbEntities db = new WebProjectDbEntities();
 
@@ -85,6 +85,13 @@ namespace WebProject.Controllers
 
         }
 
+        public ActionResult MyCart()
+        {
+            // Get the unpaid cart of the logged in user
+            Cart cart = GetUsersCart();
+            // Redirect user to their unpaid cart
+            return RedirectToAction("Details", "Carts", new { id = cart.Id });
+        }
 
 
 
