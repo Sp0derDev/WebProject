@@ -15,9 +15,17 @@ namespace WebProject.Controllers
         private WebProjectDbEntities db = new WebProjectDbEntities();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string SearchString)
         {
-            return View(db.Products.ToList());
+            var name = from n in db.Products
+                       select n;
+            if(!String.IsNullOrEmpty(SearchString))
+            {
+                name = name.Where(x =>x.Name.Contains(SearchString));
+
+            }
+            return View(name);
+            //return View(db.Products.ToList());
         }
 
         // GET: Products/Details/5
