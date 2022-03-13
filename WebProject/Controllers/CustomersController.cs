@@ -10,6 +10,7 @@ using WebProject.Models;
 
 namespace WebProject.Controllers
 {
+    [Authorize (Users ="admin@admin.com")]
     public class CustomersController : Controller
     {
         private WebProjectDbEntities db = new WebProjectDbEntities();
@@ -59,8 +60,10 @@ namespace WebProject.Controllers
         }
 
         // GET: Customers/Edit/5
+        [Authorize]
         public ActionResult Edit(string id)
         {
+    
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -70,6 +73,9 @@ namespace WebProject.Controllers
             {
                 return HttpNotFound();
             }
+
+            // Does the customer object belong to the logged in user? If not, return Forbidden error
+            if (customer.EmailAddress != User.Identity.Name) return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             return View(customer);
         }
 

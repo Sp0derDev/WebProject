@@ -24,99 +24,118 @@ namespace WebProject.Controllers
         // GET: Carts/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            // Is id null (not given)? if yes, return BadRequest error
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            // Is there a cart with the given id? if not, return NotFound error
             Cart cart = db.Carts.Find(id);
-            if (cart == null)
-            {
-                return HttpNotFound();
-            }
+            if (cart == null)  return HttpNotFound();
+            
+            // Does the cart belong to the logged in user? If not, return Forbidden error
+            if (cart.Customer.EmailAddress != User.Identity.Name) return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            
             return View(cart);
         }
 
         // GET: Carts/Create
-        public ActionResult Create()
-        {
-            ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name");
-            return View();
-        }
+        
+        //public ActionResult Create()
+        //{
+        //    ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name");
+        //    return View();
+        //}
 
         // POST: Carts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CustomerEmail,Status")] Cart cart)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Carts.Add(cart);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,CustomerEmail,Status")] Cart cart)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Carts.Add(cart);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name", cart.CustomerEmail);
-            return View(cart);
-        }
+        //    ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name", cart.CustomerEmail);
+        //    return View(cart);
+        //}
 
         // GET: Carts/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Cart cart = db.Carts.Find(id);
-            if (cart == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name", cart.CustomerEmail);
-            return View(cart);
-        }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Cart cart = db.Carts.Find(id);
+        //    if (cart == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name", cart.CustomerEmail);
+        //    return View(cart);
+        //}
 
         // POST: Carts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CustomerEmail,Status")] Cart cart)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cart).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name", cart.CustomerEmail);
-            return View(cart);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "Id,CustomerEmail,Status")] Cart cart)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(cart).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.CustomerEmail = new SelectList(db.Customers, "EmailAddress", "Name", cart.CustomerEmail);
+        //    return View(cart);
+        //}
 
         // GET: Carts/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            // Is id null (not given)? if yes, return BadRequest error
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            // Is there a cart with the given id? if not, return NotFound error
             Cart cart = db.Carts.Find(id);
-            if (cart == null)
-            {
-                return HttpNotFound();
-            }
+            if (cart == null) return HttpNotFound();
+
+            // Does the cart belong to the logged in user? If not, return Forbidden error
+            if (cart.Customer.EmailAddress != User.Identity.Name) return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
             return View(cart);
         }
 
         // POST: Carts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
+            // Is id null (not given)? if yes, return BadRequest error
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            // Is there a cart with the given id? if not, return NotFound error
             Cart cart = db.Carts.Find(id);
-            db.Carts.Remove(cart);
-            db.SaveChanges();
+            if (cart == null) return HttpNotFound();
+
+            // Does the cart belong to the logged in user? If not, return Forbidden error
+            if (cart.Customer.EmailAddress != User.Identity.Name) return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+            // Is cart empty? if not, store an error in TempData and dont delete cart.
+            if (cart.CartItems.Count() != 0) TempData["error"] = "Cart Is Not Empty";
+            else
+            {
+                db.Carts.Remove(cart);
+                db.SaveChanges();
+            }
+
+         
             return RedirectToAction("Index");
         }
 
