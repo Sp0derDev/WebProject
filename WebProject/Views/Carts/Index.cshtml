@@ -15,25 +15,32 @@
             @Html.DisplayNameFor(model => model.Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.Name)
+            Items Count
+        </th>
+        <th>
+            Cart Total Amount
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Status)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CartItems.Count)
+    </td>
+    <td>
+        @item.CartItems.Sum(c => c.Product.Price * c.Quantity) QAR
+    </td>
+    <td>
+        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+        @Html.ActionLink("Details", "Details", new { id = item.Id })
+
+       @* @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+    </td>
+</tr>
 }
 
 </table>
