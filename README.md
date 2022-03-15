@@ -1,7 +1,8 @@
 # WebProject
 
+# DATABASE NAME: WebProjectDb
 
-#Table 1:
+# Table 1:
 
 CREATE TABLE [dbo].[Product] (
     [Id]        INT            IDENTITY (1, 1) NOT NULL,
@@ -11,7 +12,7 @@ CREATE TABLE [dbo].[Product] (
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-#Table 2:
+# Table 2:
 
 CREATE TABLE [dbo].[Customer] (
     [EmailAddress]    NVARCHAR (50) NOT NULL,
@@ -21,7 +22,7 @@ CREATE TABLE [dbo].[Customer] (
     PRIMARY KEY CLUSTERED ([EmailAddress] ASC)
 );
 
-#Table 3:
+# Table 3:
 
 CREATE TABLE [dbo].[Cart] (
     [Id]            INT           IDENTITY (1, 1) NOT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE [dbo].[Cart] (
     CONSTRAINT [FK_Cart_Customer] FOREIGN KEY ([CustomerEmail]) REFERENCES [dbo].[Customer] ([EmailAddress])
 );
 
-#Table 4:
+# Table 4:
 
 CREATE TABLE [dbo].[CartItem] (
     [Id]        INT IDENTITY (1, 1) NOT NULL,
@@ -43,7 +44,7 @@ CREATE TABLE [dbo].[CartItem] (
     CONSTRAINT [FK_Table_Prodcut] FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([Id])
 );
 
-#Table 5: 
+# Table 5: 
 
 CREATE TABLE [dbo].[CardCode] (
     [Id]        INT            IDENTITY (1, 1) NOT NULL,
